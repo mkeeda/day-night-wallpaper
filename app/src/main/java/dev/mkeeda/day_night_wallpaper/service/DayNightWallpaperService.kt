@@ -24,6 +24,7 @@ class DayNightWallpaperService : WallpaperService() {
             val canvas = holder.lockCanvas()
             val srcBitmap = BitmapFactory.decodeResource(resources, R.drawable.sample_image)
 
+            // Scale to fit center of screen
             val originalWidth = srcBitmap.width
             val originalHeight = srcBitmap.height
             val (scaledWidth, scaledHeight) = when {
@@ -42,8 +43,12 @@ class DayNightWallpaperService : WallpaperService() {
                 }
             }
             val scaledBitmap = Bitmap.createScaledBitmap(srcBitmap, scaledWidth, scaledHeight, true)
+
+            val centerX = (canvas.width - scaledWidth) / 2.0f
+            val centerY = (canvas.height - scaledHeight) / 2.0f
+
             canvas.drawColor(Color.BLACK)
-            canvas.drawBitmap(scaledBitmap, 0F, 0F, Paint())
+            canvas.drawBitmap(scaledBitmap, centerX, centerY, Paint())
 
             holder.unlockCanvasAndPost(canvas)
         }
