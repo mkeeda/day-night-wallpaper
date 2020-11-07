@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">day-night-wallpaper</string>
+    <string name="wallpaper_description">This is day-night wallpaper.</string>
 </resources>
