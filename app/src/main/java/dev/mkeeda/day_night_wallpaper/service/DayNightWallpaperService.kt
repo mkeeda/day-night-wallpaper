@@ -1,11 +1,11 @@
 package dev.mkeeda.day_night_wallpaper.service
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Paint
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import androidx.core.graphics.scale
 import dev.mkeeda.day_night_wallpaper.R
 
 class DayNightWallpaperService : WallpaperService() {
@@ -42,7 +42,7 @@ class DayNightWallpaperService : WallpaperService() {
                     canvas.width to canvas.height
                 }
             }
-            val scaledBitmap = Bitmap.createScaledBitmap(srcBitmap, scaledWidth, scaledHeight, true)
+            val scaledBitmap = srcBitmap.scale(width = scaledWidth, height = scaledHeight)
 
             val centerX = (canvas.width - scaledWidth) / 2.0f
             val centerY = (canvas.height - scaledHeight) / 2.0f
