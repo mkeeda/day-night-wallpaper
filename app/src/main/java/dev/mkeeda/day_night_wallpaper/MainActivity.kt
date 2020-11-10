@@ -8,13 +8,13 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
 import androidx.ui.tooling.preview.Preview
-import dev.mkeeda.day_night_wallpaper.ui.DaynightwallpaperTheme
+import dev.mkeeda.day_night_wallpaper.ui.DayNightWallpaperTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DaynightwallpaperTheme {
+            DayNightWallpaperTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     Greeting("Android")
@@ -32,7 +32,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DaynightwallpaperTheme {
+    DayNightWallpaperTheme {
         Greeting("Android")
     }
 }
