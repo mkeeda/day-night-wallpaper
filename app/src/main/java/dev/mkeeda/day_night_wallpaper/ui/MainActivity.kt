@@ -1,0 +1,33 @@
+package dev.mkeeda.day_night_wallpaper.ui
+
+import android.net.Uri
+import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.setContent
+import dev.mkeeda.day_night_wallpaper.ui.editor.EditorScreen
+import dev.mkeeda.day_night_wallpaper.ui.editor.EditorViewModel
+import dev.mkeeda.day_night_wallpaper.ui.theme.DayNightWallpaperTheme
+
+class MainActivity : AppCompatActivity() {
+    private val viewModel: EditorViewModel by viewModels()
+    private val openDocument = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { imageUri: Uri? ->
+        imageUri?.let {
+            viewModel.selectImageUri(imageUri)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            DayNightWallpaperTheme {
+                EditorScreen(onSelectImage = {
+                    openDocument.launch(arrayOf("image/*"))
+                })
+            }
+        }
+    }
+}
