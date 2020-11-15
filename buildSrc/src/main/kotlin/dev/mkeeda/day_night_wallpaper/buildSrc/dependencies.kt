@@ -22,6 +22,7 @@ object Libs {
 
         const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06"
         const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta01"
+        const val dataStorePreferences = "androidx.datastore:datastore-preferences:1.0.0-alpha03"
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.2"

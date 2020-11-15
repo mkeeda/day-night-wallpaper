@@ -53,6 +53,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.uiTooling
     implementation Libs.AndroidX.lifecycleRuntimeKtx
     implementation Libs.AndroidX.activityKtx
+    implementation Libs.AndroidX.dataStorePreferences
 
     testImplementation Libs.junit
     androidTestImplementation Libs.AndroidX.Test.junit
