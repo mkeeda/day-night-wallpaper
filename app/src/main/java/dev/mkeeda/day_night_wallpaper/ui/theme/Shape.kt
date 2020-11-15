@@ -1,4 +1,4 @@
-package dev.mkeeda.day_night_wallpaper.ui
+package dev.mkeeda.day_night_wallpaper.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
