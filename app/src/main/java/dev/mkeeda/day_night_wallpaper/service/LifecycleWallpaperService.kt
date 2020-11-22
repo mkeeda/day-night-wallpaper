@@ -2,9 +2,11 @@ package dev.mkeeda.day_night_wallpaper.service
 
 import android.content.Intent
 import android.service.wallpaper.WallpaperService
+import android.view.SurfaceHolder
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ServiceLifecycleDispatcher
 
 /**
@@ -58,5 +60,35 @@ abstract class LifecycleWallpaperService : WallpaperService(), LifecycleOwner {
         return onCreateEngineWithLifecycle()
     }
 
-    abstract fun onCreateEngineWithLifecycle(): Engine
+    abstract fun onCreateEngineWithLifecycle(): LifecycleEngine
+
+    open inner class LifecycleEngine : Engine(), LifecycleOwner {
+        private val lifecycleRegistry by lazy {
+            LifecycleRegistry(this)
+        }
+
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
+        }
+
+        override fun onCreate(surfaceHolder: SurfaceHolder?) {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+            super.onCreate(surfaceHolder)
+        }
+
+        override fun onSurfaceCreated(holder: SurfaceHolder?) {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+            super.onSurfaceCreated(holder)
+        }
+
+        override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+            super.onSurfaceDestroyed(holder)
+        }
+
+        override fun onDestroy() {
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            super.onDestroy()
+        }
+    }
 }

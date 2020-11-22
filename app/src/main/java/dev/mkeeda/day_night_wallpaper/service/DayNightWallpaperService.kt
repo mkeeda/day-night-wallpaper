@@ -17,33 +17,29 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.withContext
 
 class DayNightWallpaperService : LifecycleWallpaperService() {
-    override fun onCreateEngineWithLifecycle(): Engine {
+    override fun onCreateEngineWithLifecycle(): LifecycleEngine {
         val wallpaperRepository = (application as DayNightWallpaperApp).wallpaperRepository
         return DayNightWallpaperEngine(wallpaperRepository)
     }
 
     inner class DayNightWallpaperEngine(
         private val wallpaperRepository: WallpaperRepository
-    ) : Engine() {
-        override fun onSurfaceCreated(holder: SurfaceHolder?) {
-            super.onSurfaceCreated(holder)
-            holder ?: return
+    ) : LifecycleEngine() {
+        override fun onCreate(surfaceHolder: SurfaceHolder?) {
+            super.onCreate(surfaceHolder)
 
             lifecycleScope.launchWhenStarted {
                 wallpaperRepository.wallpaperFlow
                     .filterNotNull()
                     .collect { wallpaper ->
-                        drawImage(
-                            holder = holder,
-                            uri = wallpaper.lightImageUri.toUri()
-                        )
+                        drawImage(uri = wallpaper.lightImageUri.toUri())
                     }
             }
         }
 
-        private suspend fun drawImage(holder: SurfaceHolder, uri: Uri) {
+        private suspend fun drawImage(uri: Uri) {
             withContext(Dispatchers.IO) {
-                val canvas = holder.lockCanvas()
+                val canvas = surfaceHolder.lockCanvas()
                 val srcBitmap = uri.loadBitmap()
 
                 // Scale to fit center of screen
@@ -72,7 +68,7 @@ class DayNightWallpaperService : LifecycleWallpaperService() {
                 canvas.drawColor(Color.BLACK)
                 canvas.drawBitmap(scaledBitmap, centerX, centerY, Paint())
 
-                holder.unlockCanvasAndPost(canvas)
+                surfaceHolder.unlockCanvasAndPost(canvas)
             }
         }
     }
