@@ -16,20 +16,20 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
  *   - LifecycleService implementation: https://cs.android.com/androidx/platform/frameworks/support/+/androidx-master-dev:lifecycle/lifecycle-service/src/main/java/androidx/lifecycle/LifecycleService.java
  */
 abstract class LifecycleWallpaperService : WallpaperService(), LifecycleOwner {
-    @Suppress("LeakingThis")
-    // FIXME: Leaking 'this' in constructor of non-final
-    private val mDispatcher = ServiceLifecycleDispatcher(this)
+    private val serviceLifecycleDispatcher by lazy {
+        ServiceLifecycleDispatcher(this)
+    }
 
     @CallSuper
     override fun onCreate() {
-        mDispatcher.onServicePreSuperOnCreate()
+        serviceLifecycleDispatcher.onServicePreSuperOnCreate()
         super.onCreate()
     }
 
     @Suppress("deprecation")
     @CallSuper
     override fun onStart(intent: Intent?, startId: Int) {
-        mDispatcher.onServicePreSuperOnStart()
+        serviceLifecycleDispatcher.onServicePreSuperOnStart()
         super.onStart(intent, startId)
     }
 
@@ -44,19 +44,19 @@ abstract class LifecycleWallpaperService : WallpaperService(), LifecycleOwner {
 
     @CallSuper
     override fun onDestroy() {
-        mDispatcher.onServicePreSuperOnDestroy()
+        serviceLifecycleDispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
     }
 
     override fun getLifecycle(): Lifecycle {
-        return mDispatcher.lifecycle
+        return serviceLifecycleDispatcher.lifecycle
     }
 
     final override fun onCreateEngine(): Engine {
         // Workaround:
         // WallpaperService#onBind is final method,
         // so dispatcher cannot be received a ON_START event on bind.
-        mDispatcher.onServicePreSuperOnBind()
+        serviceLifecycleDispatcher.onServicePreSuperOnBind()
         return onCreateEngineWithLifecycle()
     }
 
