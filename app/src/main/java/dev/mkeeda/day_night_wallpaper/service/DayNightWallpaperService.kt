@@ -9,6 +9,7 @@ import android.view.SurfaceHolder
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import dev.mkeeda.day_night_wallpaper.DayNightWallpaperApp
 import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -17,7 +18,7 @@ import kotlinx.coroutines.withContext
 
 class DayNightWallpaperService : LifecycleWallpaperService() {
     override fun onCreateEngineWithLifecycle(): Engine {
-        val wallpaperRepository = WallpaperRepository(context = this)
+        val wallpaperRepository = (application as DayNightWallpaperApp).wallpaperRepository
         return DayNightWallpaperEngine(wallpaperRepository)
     }
 

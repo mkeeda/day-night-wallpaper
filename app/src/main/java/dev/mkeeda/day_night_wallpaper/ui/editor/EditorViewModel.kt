@@ -1,6 +1,5 @@
 package dev.mkeeda.day_night_wallpaper.ui.editor
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
@@ -34,11 +33,11 @@ class EditorViewModel(
     }
 
     class Factory(
-        private val context: Context
+        private val wallpaperRepository: WallpaperRepository
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return EditorViewModel(WallpaperRepository(context)) as T
+            return EditorViewModel(wallpaperRepository) as T
         }
     }
 }

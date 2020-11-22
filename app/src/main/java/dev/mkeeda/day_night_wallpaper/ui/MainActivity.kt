@@ -7,13 +7,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.setContent
+import dev.mkeeda.day_night_wallpaper.DayNightWallpaperApp
 import dev.mkeeda.day_night_wallpaper.ui.editor.EditorScreen
 import dev.mkeeda.day_night_wallpaper.ui.editor.EditorViewModel
 import dev.mkeeda.day_night_wallpaper.ui.theme.DayNightWallpaperTheme
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: EditorViewModel by viewModels {
-        EditorViewModel.Factory(context = this)
+        val wallpaperRepository = (application as DayNightWallpaperApp).wallpaperRepository
+        EditorViewModel.Factory(wallpaperRepository)
     }
 
     private val openDocument = registerForActivityResult(
