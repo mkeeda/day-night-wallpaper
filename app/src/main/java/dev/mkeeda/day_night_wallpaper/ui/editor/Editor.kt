@@ -24,7 +24,7 @@ fun EditorScreen(
     )
 }
 
-    @Composable
+@Composable
 fun EditorContent(
     onSelectImage: () -> Unit,
     selectedImageUri: Uri?
@@ -41,7 +41,7 @@ fun EditorContent(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun EditorScreenPreview() {
     DayNightWallpaperTheme {
