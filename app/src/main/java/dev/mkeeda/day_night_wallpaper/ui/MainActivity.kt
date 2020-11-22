@@ -1,5 +1,6 @@
 package dev.mkeeda.day_night_wallpaper.ui
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.OpenDocument()
     ) { imageUri: Uri? ->
         imageUri?.let {
-            viewModel.selectImageUri(imageUri)
+            contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            viewModel.selectImageUri(it)
         }
     }
 
