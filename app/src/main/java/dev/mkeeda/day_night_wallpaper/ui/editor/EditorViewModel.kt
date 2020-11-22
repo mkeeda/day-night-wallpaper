@@ -1,7 +1,6 @@
 package dev.mkeeda.day_night_wallpaper.ui.editor
 
 import android.net.Uri
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +20,6 @@ class EditorViewModel(
         }
 
     fun selectImageUri(uri: Uri) {
-        Log.d("⭐", "$uri")
         viewModelScope.launch {
             wallpaperRepository.update(
                 newWallpaper = Wallpaper(
