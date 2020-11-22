@@ -20,8 +20,14 @@ object Libs {
             const val uiTooling = "androidx.ui:ui-tooling:$version"
         }
 
-        const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06"
+        object Lifecycle {
+            private const val version = "2.3.0-beta01"
+            const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
+            const val service = "androidx.lifecycle:lifecycle-service:$version"
+        }
+
         const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta01"
+        const val dataStorePreferences = "androidx.datastore:datastore-preferences:1.0.0-alpha04"
 
         object Test {
             const val junit = "androidx.test.ext:junit:1.1.2"
