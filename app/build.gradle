@@ -51,7 +51,8 @@ dependencies {
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.uiTooling
-    implementation Libs.AndroidX.lifecycleRuntimeKtx
+    implementation Libs.AndroidX.Lifecycle.runtimeKtx
+    implementation Libs.AndroidX.Lifecycle.service
     implementation Libs.AndroidX.activityKtx
     implementation Libs.AndroidX.dataStorePreferences
 
