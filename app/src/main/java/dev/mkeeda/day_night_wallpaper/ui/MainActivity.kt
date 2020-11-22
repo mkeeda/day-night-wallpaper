@@ -11,7 +11,10 @@ import dev.mkeeda.day_night_wallpaper.ui.editor.EditorViewModel
 import dev.mkeeda.day_night_wallpaper.ui.theme.DayNightWallpaperTheme
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: EditorViewModel by viewModels()
+    private val viewModel: EditorViewModel by viewModels {
+        EditorViewModel.Factory(context = this)
+    }
+
     private val openDocument = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { imageUri: Uri? ->
@@ -24,9 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DayNightWallpaperTheme {
-                EditorScreen(onSelectImage = {
-                    openDocument.launch(arrayOf("image/*"))
-                })
+                EditorScreen(
+                    onSelectImage = {
+                        openDocument.launch(arrayOf("image/*"))
+                    },
+                    viewModel = viewModel
+                )
             }
         }
     }
