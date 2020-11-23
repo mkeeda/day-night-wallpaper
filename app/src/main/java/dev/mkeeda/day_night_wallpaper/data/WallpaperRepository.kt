@@ -20,19 +20,19 @@ class WallpaperRepository(
     private val lightKey = preferencesKey<String>("light")
     private val darkKey = preferencesKey<String>("dark")
 
-    val wallpaperFlow: Flow<Wallpaper?> = dataStore.data.map { preferences ->
+    val wallpaperFile: Flow<WallpaperFile?> = dataStore.data.map { preferences ->
         // TODO: if values is null, Flow emits null not empty string.
-        Wallpaper(
+        WallpaperFile(
             lightImageUri = preferences[lightKey] ?: "",
             darkImageUri = ""
         )
     }
 
-    suspend fun update(newWallpaper: Wallpaper) {
+    suspend fun update(newWallpaperFile: WallpaperFile) {
         dataStore.edit { preferences ->
             preferences.putAll(
-                lightKey to newWallpaper.lightImageUri,
-                darkKey to newWallpaper.darkImageUri
+                lightKey to newWallpaperFile.lightImageUri,
+                darkKey to newWallpaperFile.darkImageUri
             )
         }
     }

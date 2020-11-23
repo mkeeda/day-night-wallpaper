@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             DayNightWallpaperTheme {
                 EditorScreen(
-                    onSelectImage = {
+                    onSelectImage = { uiMode ->
+                        // TODO: Separate result api call between light and dark
                         openDocument.launch(arrayOf("image/*"))
                     },
                     viewModel = viewModel

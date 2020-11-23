@@ -11,12 +11,12 @@ class ShowWallpaperUseCase(
 ) {
     fun execute(uiMode: Flow<UiMode>): Flow<String> {
         return combine(
-            wallpaperRepository.wallpaperFlow.filterNotNull(),
+            wallpaperRepository.wallpaperFile.filterNotNull(),
             uiMode
-        ) { wallpaper, mode ->
+        ) { wallpaperFile, mode ->
             when (mode) {
-                UiMode.Light -> wallpaper.lightImageUri
-                UiMode.Dark -> wallpaper.darkImageUri
+                UiMode.Light -> wallpaperFile.lightImageUri
+                UiMode.Dark -> wallpaperFile.darkImageUri
             }
         }
     }
