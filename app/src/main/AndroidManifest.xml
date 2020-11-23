@@ -25,7 +25,8 @@
         <service
             android:name=".wallpaper.DayNightWallpaperService"
             android:label="DayNightWallpaper"
-            android:permission="android.permission.BIND_WALLPAPER">
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:configChanges="uiMode">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
