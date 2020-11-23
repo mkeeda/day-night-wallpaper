@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import dev.mkeeda.day_night_wallpaper.DayNightWallpaperApp
 import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
+import dev.mkeeda.day_night_wallpaper.util.LifecycleWallpaperService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
