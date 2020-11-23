@@ -1,12 +1,11 @@
 package dev.mkeeda.day_night_wallpaper.data
 
 import android.content.Context
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.core.putAll
-import androidx.datastore.preferences.core.to
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,20 +19,20 @@ class WallpaperRepository(
     private val lightKey = preferencesKey<String>("light")
     private val darkKey = preferencesKey<String>("dark")
 
-    val wallpaperFlow: Flow<Wallpaper?> = dataStore.data.map { preferences ->
+    val wallpaperFile: Flow<WallpaperFile?> = dataStore.data.map { preferences ->
         // TODO: if values is null, Flow emits null not empty string.
-        Wallpaper(
-            lightImageUri = preferences[lightKey] ?: "",
-            darkImageUri = ""
+        WallpaperFile(
+            lightImage = ThemeImage.Light((preferences[lightKey] ?: "").toUri()),
+            darkImage = ThemeImage.Dark((preferences[darkKey] ?: "").toUri()),
         )
     }
 
-    suspend fun update(newWallpaper: Wallpaper) {
+    suspend fun update(newImage: ThemeImage) {
         dataStore.edit { preferences ->
-            preferences.putAll(
-                lightKey to newWallpaper.lightImageUri,
-                darkKey to newWallpaper.darkImageUri
-            )
+            when(newImage) {
+                is ThemeImage.Light -> preferences.set(key = lightKey, newImage.uri.toString())
+                is ThemeImage.Dark -> preferences.set(key = darkKey, newImage.uri.toString())
+            }
         }
     }
 }

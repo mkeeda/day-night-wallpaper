@@ -1,5 +1,6 @@
-package dev.mkeeda.day_night_wallpaper.service
+package dev.mkeeda.day_night_wallpaper.wallpaper
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -7,32 +8,50 @@ import android.graphics.Paint
 import android.net.Uri
 import android.view.SurfaceHolder
 import androidx.core.graphics.scale
-import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import dev.mkeeda.day_night_wallpaper.DayNightWallpaperApp
-import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
+import dev.mkeeda.day_night_wallpaper.data.UiMode
+import dev.mkeeda.day_night_wallpaper.domain.ShowWallpaperUseCase
+import dev.mkeeda.day_night_wallpaper.extention.isDarkTheme
+import dev.mkeeda.day_night_wallpaper.util.LifecycleWallpaperService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.withContext
 
 class DayNightWallpaperService : LifecycleWallpaperService() {
-    override fun onCreateEngineWithLifecycle(): LifecycleEngine {
+    private lateinit var viewModel: WallpaperViewModel
+
+    override fun onCreate() {
+        super.onCreate()
+
+        // FIXME: Use DI container
         val wallpaperRepository = (application as DayNightWallpaperApp).wallpaperRepository
-        return DayNightWallpaperEngine(wallpaperRepository)
+        val showWallpaperUseCase = ShowWallpaperUseCase(wallpaperRepository)
+        viewModel = WallpaperViewModel(
+            showWallpaperUseCase = showWallpaperUseCase,
+            initialUiMode = if (isDarkTheme()) UiMode.Dark else UiMode.Light
+        )
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        viewModel.notifyUiMode(newMode = if (newConfig.isDarkTheme()) UiMode.Dark else UiMode.Light)
+    }
+
+    override fun onCreateEngineWithLifecycle(): LifecycleWallpaperService.LifecycleEngine {
+        return DayNightWallpaperEngine(viewModel)
     }
 
     inner class DayNightWallpaperEngine(
-        private val wallpaperRepository: WallpaperRepository
-    ) : LifecycleEngine() {
+        private val viewModel: WallpaperViewModel
+    ) : LifecycleWallpaperService.LifecycleEngine() {
         override fun onCreate(surfaceHolder: SurfaceHolder?) {
             super.onCreate(surfaceHolder)
 
             lifecycleScope.launchWhenStarted {
-                wallpaperRepository.wallpaperFlow
-                    .filterNotNull()
-                    .collect { wallpaper ->
-                        drawImage(uri = wallpaper.lightImageUri.toUri())
+                viewModel.renderedWallpaper
+                    .collect { filePath ->
+                        drawImage(uri = filePath)
                     }
             }
         }

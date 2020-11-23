@@ -1,4 +1,4 @@
-package dev.mkeeda.day_night_wallpaper.service
+package dev.mkeeda.day_night_wallpaper.util
 
 import android.content.Intent
 import android.service.wallpaper.WallpaperService
