@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".service.DayNightWallpaperService"
+            android:name=".wallpaper.DayNightWallpaperService"
             android:label="DayNightWallpaper"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>

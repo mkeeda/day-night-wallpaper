@@ -1,4 +1,4 @@
-package dev.mkeeda.day_night_wallpaper.service
+package dev.mkeeda.day_night_wallpaper.wallpaper
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
