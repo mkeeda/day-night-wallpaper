@@ -8,7 +8,6 @@ import android.graphics.Paint
 import android.net.Uri
 import android.view.SurfaceHolder
 import androidx.core.graphics.scale
-import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import dev.mkeeda.day_night_wallpaper.DayNightWallpaperApp
 import dev.mkeeda.day_night_wallpaper.data.UiMode
@@ -17,7 +16,6 @@ import dev.mkeeda.day_night_wallpaper.extention.isDarkTheme
 import dev.mkeeda.day_night_wallpaper.util.LifecycleWallpaperService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.withContext
 
 class DayNightWallpaperService : LifecycleWallpaperService() {
@@ -52,9 +50,8 @@ class DayNightWallpaperService : LifecycleWallpaperService() {
 
             lifecycleScope.launchWhenStarted {
                 viewModel.renderedWallpaper
-                    .filterNot { it.isEmpty() }
                     .collect { filePath ->
-                        drawImage(uri = filePath.toUri())
+                        drawImage(uri = filePath)
                     }
             }
         }

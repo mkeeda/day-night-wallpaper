@@ -25,8 +25,8 @@ fun EditorScreen(
     val state = viewModel.wallpaperFile.collectAsState(initial = null)
     EditorContent(
         onSelectImage = onSelectImage,
-        lightImageUri = state.value?.lightImageUri?.toUri(),
-        darkImageUri = state.value?.lightImageUri?.toUri()
+        lightImageUri = state.value?.lightImage?.uri,
+        darkImageUri = state.value?.darkImage?.uri
     )
 }
 
