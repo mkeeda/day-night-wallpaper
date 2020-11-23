@@ -6,8 +6,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.core.putAll
-import androidx.datastore.preferences.core.to
 import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -29,12 +27,12 @@ class WallpaperRepository(
         )
     }
 
-    suspend fun update(newWallpaperFile: WallpaperFile) {
+    suspend fun update(newImage: ThemeImage) {
         dataStore.edit { preferences ->
-            preferences.putAll(
-                lightKey to newWallpaperFile.lightImageUri,
-                darkKey to newWallpaperFile.darkImageUri
-            )
+            when(newImage) {
+                is ThemeImage.Light -> preferences.set(key = lightKey, newImage.uri.toString())
+                is ThemeImage.Dark -> preferences.set(key = darkKey, newImage.uri.toString())
+            }
         }
     }
 }

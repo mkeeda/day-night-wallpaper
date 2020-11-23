@@ -1,9 +1,9 @@
 package dev.mkeeda.day_night_wallpaper.ui.editor
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dev.mkeeda.day_night_wallpaper.data.ThemeImage
 import dev.mkeeda.day_night_wallpaper.data.WallpaperFile
 import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,14 +15,9 @@ class EditorViewModel(
 ) : ViewModel() {
     val wallpaperFile: Flow<WallpaperFile> = wallpaperRepository.wallpaperFile.filterNotNull()
 
-    fun selectImageUri(uri: Uri) {
+    fun selectImageUri(newImage: ThemeImage) {
         viewModelScope.launch {
-            wallpaperRepository.update(
-                newWallpaperFile = WallpaperFile(
-                    lightImageUri = uri.toString(),
-                    darkImageUri = ""
-                )
-            )
+            wallpaperRepository.update(newImage)
         }
     }
 
