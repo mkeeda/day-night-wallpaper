@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.filterNotNull
 class ShowWallpaperUseCase(
     private val wallpaperRepository: WallpaperRepository
 ) {
-    suspend fun execute(uiMode: Flow<UiMode>): Flow<String> {
+    fun execute(uiMode: Flow<UiMode>): Flow<String> {
         return combine(
             wallpaperRepository.wallpaperFlow.filterNotNull(),
             uiMode

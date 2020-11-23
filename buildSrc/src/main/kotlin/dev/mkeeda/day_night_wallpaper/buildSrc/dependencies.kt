@@ -7,6 +7,10 @@ object Libs {
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
+    object KotlinX {
+        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    }
+
     const val androidGradlePlugin = "com.android.tools.build:gradle:4.2.0-alpha16"
 
     object AndroidX {
