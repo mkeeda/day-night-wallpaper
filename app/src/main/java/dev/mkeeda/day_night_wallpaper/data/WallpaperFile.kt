@@ -7,7 +7,11 @@ data class WallpaperFile(
     val darkImage: ThemeImage.Dark
 )
 
-sealed class ThemeImage {
-    data class Light(val uri: Uri): ThemeImage()
-    data class Dark(val uri: Uri): ThemeImage()
+interface FileLocationRepresentable {
+    val uri: Uri
+}
+
+sealed class ThemeImage : FileLocationRepresentable {
+    data class Light(override val uri: Uri): ThemeImage()
+    data class Dark(override val uri: Uri): ThemeImage()
 }
