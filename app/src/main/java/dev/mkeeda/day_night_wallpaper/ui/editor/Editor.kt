@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.ui.tooling.preview.Preview
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -68,10 +71,12 @@ fun EditorContent(
             )
             when(selectedTheme) {
                 UiMode.Light -> WallpaperSelector(
+                    modifier = Modifier.fillMaxSize(),
                     onSelectImage = { onSelectImage(UiMode.Light) },
                     selectedImageUri = lightImageUri
                 )
                 UiMode.Dark -> WallpaperSelector(
+                    modifier = Modifier.fillMaxSize(),
                     onSelectImage = { onSelectImage(UiMode.Dark) },
                     selectedImageUri = darkImageUri
                 )
@@ -107,7 +112,7 @@ fun EditorTabs(
 
 @Composable
 fun WallpaperSelector(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     onSelectImage: () -> Unit,
     selectedImageUri: Uri?
 ) {
@@ -115,40 +120,63 @@ fun WallpaperSelector(
         modifier = modifier.clickable(onClick = onSelectImage)
     ) {
         if (selectedImageUri == null) {
-            EmptyWallpaper()
+            EmptyWallpaper(modifier = modifier)
         } else {
-            WallpaperPreview(selectedImageUri = selectedImageUri)
+            WallpaperPreview(
+                modifier = modifier,
+                selectedImageUri = selectedImageUri
+            )
         }
     }
 }
 
 @Composable
-fun EmptyWallpaper() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(asset = Icons.Default.Wallpaper)
+fun EmptyWallpaper(
+    modifier: Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            asset = Icons.Default.Wallpaper.copy(
+                defaultWidth = 240.dp,
+                defaultHeight = 240.dp
+            )
+        )
         Text(text = "Tap and select wallpaper")
     }
 }
 
 @Composable
 fun WallpaperPreview(
+    modifier: Modifier,
     selectedImageUri: Uri
 ) {
-    CoilImage(
-        data = selectedImageUri,
-        loading = {
-            Icon(
-                asset = Icons.Default.InsertPhoto,
-                tint = MaterialTheme.colors.onSurface
-            )
-        },
-        error = {
-            Icon(
-                asset = Icons.Default.BrokenImage,
-                tint = MaterialTheme.colors.error
-            )
-        }
-    )
+    Box(
+        modifier = modifier,
+        alignment = Alignment.Center
+    ) {
+        CoilImage(
+            data = selectedImageUri,
+            loading = {
+                Icon(
+                    asset = Icons.Default.InsertPhoto,
+                    tint = MaterialTheme.colors.onSurface
+                )
+            },
+            error = {
+                Icon(
+                    asset = Icons.Default.BrokenImage.copy(
+                        defaultWidth = 240.dp,
+                        defaultHeight = 240.dp
+                    ),
+                    tint = MaterialTheme.colors.error
+                )
+            }
+        )
+    }
 }
 
 @Preview
