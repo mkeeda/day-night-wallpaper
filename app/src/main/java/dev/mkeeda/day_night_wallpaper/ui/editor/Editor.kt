@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BrokenImage
@@ -63,6 +65,43 @@ fun EditorContent(
                 selectedImageUri = darkImageUri
             )
         }
+    }
+}
+
+@Composable
+fun EditorTabs(
+    wallpaperCategories: List<UiMode>,
+    selectedCategory: UiMode,
+    onTabSelected: (UiMode) -> Unit
+) {
+    val selectedCategoryIndex = wallpaperCategories.indexOfFirst { it == selectedCategory }
+    TabRow(selectedTabIndex = selectedCategoryIndex) {
+        wallpaperCategories.forEachIndexed { index, uiMode ->
+            Tab(
+                selected = index == selectedCategoryIndex,
+                onClick = { onTabSelected(uiMode) },
+                text = {
+                    Text(
+                        text = when (uiMode) {
+                            UiMode.Light -> "Light"
+                            UiMode.Dark -> "Dark"
+                        }
+                    )
+                }
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun EditorTabsPreview() {
+    DayNightWallpaperTheme {
+        EditorTabs(
+            wallpaperCategories = listOf(UiMode.Light, UiMode.Dark),
+            selectedCategory = UiMode.Light,
+            onTabSelected = {}
+        )
     }
 }
 
