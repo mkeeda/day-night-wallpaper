@@ -18,7 +18,7 @@ object Libs {
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
 
         object Compose {
-            const val version = "1.0.0-alpha06"
+            const val version = "1.0.0-alpha07"
             const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"
             const val uiTooling = "androidx.ui:ui-tooling:$version"
