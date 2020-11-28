@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.filterNotNull
 class ShowWallpaperUseCase(
     private val wallpaperRepository: WallpaperRepository
 ) {
-    fun execute(uiMode: Flow<UiMode>): Flow<Uri> {
+    fun execute(uiMode: Flow<UiMode>): Flow<Uri?> {
         return combine(
             wallpaperRepository.wallpaperFile.filterNotNull(),
             uiMode
         ) { wallpaperFile, mode ->
             when (mode) {
-                UiMode.Light -> wallpaperFile.lightImage.uri
-                UiMode.Dark -> wallpaperFile.darkImage.uri
+                UiMode.Light -> wallpaperFile.lightImage?.uri
+                UiMode.Dark -> wallpaperFile.darkImage?.uri
             }
         }
     }

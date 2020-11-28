@@ -19,12 +19,26 @@ class WallpaperRepository(
     private val lightKey = preferencesKey<String>("light")
     private val darkKey = preferencesKey<String>("dark")
 
+    /*
+    * This flow emits a WallpaperFile instance if there is a URI in either light or dark.
+    * If both light and dark URIs are null, the flow emits null.
+    * */
     val wallpaperFile: Flow<WallpaperFile?> = dataStore.data.map { preferences ->
-        // TODO: if values is null, Flow emits null not empty string.
-        WallpaperFile(
-            lightImage = ThemeImage.Light((preferences[lightKey] ?: "").toUri()),
-            darkImage = ThemeImage.Dark((preferences[darkKey] ?: "").toUri()),
-        )
+        val lightImageUriString = preferences[lightKey]
+        val darkImageUriString = preferences[darkKey]
+
+        if (lightImageUriString == null && darkImageUriString == null) {
+            null
+        } else {
+            WallpaperFile(
+                lightImage = lightImageUriString?.let {
+                    ThemeImage.Light(it.toUri())
+                },
+                darkImage = darkImageUriString?.let {
+                    ThemeImage.Dark(it.toUri())
+                },
+            )
+        }
     }
 
     suspend fun update(newImage: ThemeImage) {

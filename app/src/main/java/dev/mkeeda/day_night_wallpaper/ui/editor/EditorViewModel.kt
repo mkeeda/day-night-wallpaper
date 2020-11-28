@@ -7,13 +7,12 @@ import dev.mkeeda.day_night_wallpaper.data.ThemeImage
 import dev.mkeeda.day_night_wallpaper.data.WallpaperFile
 import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class EditorViewModel(
     private val wallpaperRepository: WallpaperRepository
 ) : ViewModel() {
-    val wallpaperFile: Flow<WallpaperFile> = wallpaperRepository.wallpaperFile.filterNotNull()
+    val wallpaperFile: Flow<WallpaperFile?> = wallpaperRepository.wallpaperFile
 
     fun selectImageUri(newImage: ThemeImage) {
         viewModelScope.launch {
