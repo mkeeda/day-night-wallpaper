@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private val openDocument = registerForLightAndDarkImageActivityResult { themeImage ->
         contentResolver.takePersistableUriPermission(themeImage.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        viewModel.selectImageUri(themeImage)
+        viewModel.onSelectImageUri(themeImage)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
