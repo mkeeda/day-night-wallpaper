@@ -5,10 +5,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -16,9 +16,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material.icons.filled.InsertPhoto
+import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.unit.dp
@@ -52,13 +54,11 @@ fun EditorContent(
     Surface(color = MaterialTheme.colors.background) {
         ScrollableColumn(Modifier.padding(8.dp)) {
             WallpaperSelector(
-                title = "select light theme image",
                 onSelectImage = { onSelectImage(UiMode.Light) },
                 selectedImageUri = lightImageUri
             )
             Spacer(modifier = Modifier.padding(8.dp))
             WallpaperSelector(
-                title = "select dark theme image",
                 onSelectImage = { onSelectImage(UiMode.Dark) },
                 selectedImageUri = darkImageUri
             )
@@ -68,17 +68,26 @@ fun EditorContent(
 
 @Composable
 fun WallpaperSelector(
-    title: String,
+    modifier: Modifier = Modifier,
     onSelectImage: () -> Unit,
     selectedImageUri: Uri?
 ) {
-    Column {
-        Button(onClick = onSelectImage){
-            Text(text = title)
+    Surface(
+        modifier = modifier.clickable(onClick = onSelectImage)
+    ) {
+        if (selectedImageUri == null) {
+            EmptyWallpaper()
+        } else {
+            WallpaperPreview(selectedImageUri = selectedImageUri)
         }
-        selectedImageUri?.let {
-            WallpaperPreview(selectedImageUri = it)
-        }
+    }
+}
+
+@Composable
+fun EmptyWallpaper() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Icon(asset = Icons.Default.Wallpaper)
+        Text(text = "No selected wallpaper")
     }
 }
 
@@ -111,7 +120,7 @@ fun EditorScreenPreview() {
         EditorContent(
             onSelectImage = {},
             lightImageUri = sampleUri,
-            darkImageUri = sampleUri,
+            darkImageUri = null,
         )
     }
 }
