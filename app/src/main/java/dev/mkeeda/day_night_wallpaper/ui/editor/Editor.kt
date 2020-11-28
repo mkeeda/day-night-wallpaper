@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.ui.tooling.preview.Preview
@@ -100,8 +101,8 @@ fun EditorTabs(
                 text = {
                     Text(
                         text = when (uiMode) {
-                            UiMode.Light -> "Light"
-                            UiMode.Dark -> "Dark"
+                            UiMode.Light -> stringResource(id = R.string.editor_tab_title_light)
+                            UiMode.Dark -> stringResource(id = R.string.editor_tab_title_dark)
                         }
                     )
                 }
@@ -145,7 +146,7 @@ fun EmptyWallpaper(
                 defaultHeight = 240.dp
             )
         )
-        Text(text = "Tap and select wallpaper")
+        Text(text = stringResource(id = R.string.empty_wallpaper_label))
     }
 }
 
