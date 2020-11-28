@@ -87,7 +87,7 @@ fun WallpaperSelector(
 fun EmptyWallpaper() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Icon(asset = Icons.Default.Wallpaper)
-        Text(text = "No selected wallpaper")
+        Text(text = "Tap and select wallpaper")
     }
 }
 
