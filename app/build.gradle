@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "dev.mkeeda.day_night_wallpaper"
-        minSdkVersion 21
+        minSdkVersion 29
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -51,11 +51,13 @@ dependencies {
     implementation Libs.material
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.materialIconsExtended
     implementation Libs.AndroidX.Compose.uiTooling
     implementation Libs.AndroidX.Lifecycle.runtimeKtx
     implementation Libs.AndroidX.Lifecycle.service
     implementation Libs.AndroidX.activityKtx
     implementation Libs.AndroidX.dataStorePreferences
+    implementation Libs.Accompanist.coil
 
     testImplementation Libs.junit
     androidTestImplementation Libs.AndroidX.Test.junit

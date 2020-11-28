@@ -3,8 +3,8 @@ package dev.mkeeda.day_night_wallpaper.data
 import android.net.Uri
 
 data class WallpaperFile(
-    val lightImage: ThemeImage.Light,
-    val darkImage: ThemeImage.Dark
+    val lightImage: ThemeImage.Light?,
+    val darkImage: ThemeImage.Dark?
 )
 
 interface FileLocationRepresentable {

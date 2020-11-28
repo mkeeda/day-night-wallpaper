@@ -4,21 +4,47 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.mkeeda.day_night_wallpaper.data.ThemeImage
+import dev.mkeeda.day_night_wallpaper.data.UiMode
 import dev.mkeeda.day_night_wallpaper.data.WallpaperFile
 import dev.mkeeda.day_night_wallpaper.data.WallpaperRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class EditorViewModel(
     private val wallpaperRepository: WallpaperRepository
 ) : ViewModel() {
-    val wallpaperFile: Flow<WallpaperFile> = wallpaperRepository.wallpaperFile.filterNotNull()
+    private val _viewState = MutableStateFlow(EditorViewState())
+    private val selectedTheme = MutableStateFlow(UiMode.Light)
 
-    fun selectImageUri(newImage: ThemeImage) {
+    val viewState: StateFlow<EditorViewState> = _viewState
+
+    init {
+        viewModelScope.launch {
+            combine(
+                wallpaperRepository.wallpaperFile,
+                selectedTheme
+            ) { wallpaperFile, uiMode ->
+                EditorViewState(
+                    wallpaperFile = wallpaperFile,
+                    selectedTheme = uiMode
+                )
+            }.collect {
+                _viewState.value = it
+            }
+        }
+    }
+
+    fun onSelectImageUri(newImage: ThemeImage) {
         viewModelScope.launch {
             wallpaperRepository.update(newImage)
         }
+    }
+
+    fun onSelectTheme(theme: UiMode) {
+        selectedTheme.value = theme
     }
 
     class Factory(
@@ -30,3 +56,9 @@ class EditorViewModel(
         }
     }
 }
+
+data class EditorViewState(
+    val wallpaperFile: WallpaperFile? = null,
+    val wallpaperThemes: List<UiMode> = listOf(UiMode.Light, UiMode.Dark),
+    val selectedTheme: UiMode = UiMode.Light,
+)

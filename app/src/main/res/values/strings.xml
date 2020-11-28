@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">day-night-wallpaper</string>
     <string name="wallpaper_description">This is day-night wallpaper.</string>
+    <string name="editor_tab_title_light">Light</string>
+    <string name="editor_tab_title_dark">Dark</string>
+    <string name="empty_wallpaper_label">Tap and select wallpaper</string>
 </resources>
