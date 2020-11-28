@@ -10,6 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -22,11 +23,11 @@ fun EditorScreen(
     onSelectImage: (UiMode) -> Unit,
     viewModel: EditorViewModel
 ) {
-    val state = viewModel.wallpaperFile.collectAsState(initial = null)
+    val state by viewModel.wallpaperFile.collectAsState(initial = null)
     EditorContent(
         onSelectImage = onSelectImage,
-        lightImageUri = state.value?.lightImage?.uri,
-        darkImageUri = state.value?.darkImage?.uri
+        lightImageUri = state?.lightImage?.uri,
+        darkImageUri = state?.darkImage?.uri
     )
 }
 
